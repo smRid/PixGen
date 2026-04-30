@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { memoryAdapter } from "better-auth/adapters/memory";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { dash } from "@better-auth/infra";
 import { MongoClient } from "mongodb";
@@ -16,18 +17,30 @@ const trustedOrigins = [
   .map((origin) => origin?.trim())
   .filter(Boolean);
 
-const client = new MongoClient(process.env.MONGODB_URI, {
-  serverSelectionTimeoutMS: 10000,
-});
-const db = client.db(process.env.MONGODB_DB || "pixgen");
+const memoryDb = {
+  user: [],
+  session: [],
+  account: [],
+  verification: [],
+};
+
+const mongoClient = isProduction
+  ? new MongoClient(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 10000,
+    })
+  : null;
+
+const database = isProduction
+  ? mongodbAdapter(mongoClient.db(process.env.MONGODB_DB || "pixgen"), {
+      client: mongoClient,
+    })
+  : memoryAdapter(memoryDb);
 
 export const auth = betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: authBaseURL,
     trustedOrigins,
-    database: mongodbAdapter(db, {
-    client
-  }),
+    database,
      emailAndPassword: { 
     enabled: true, 
   },
@@ -42,4 +55,13 @@ export const auth = betterAuth({
       apiKey: process.env.BETTER_AUTH_API_KEY,
     }),
   ],
+  advanced: {
+    ipAddress: {
+      ipAddressHeaders: ["x-vercel-forwarded-for", "x-forwarded-for"],
+      disableIpTracking: false,
+    },
+  },
+  experimental: {
+    joins: true,
+  },
 });
