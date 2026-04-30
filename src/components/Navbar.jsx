@@ -7,18 +7,20 @@ import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();
-  const userData = authClient.useSession();
-  const user = userData?.data?.user;
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
 
   const handleSignOut = async () => {
     await authClient.signOut({
-  fetchOptions: {
-    onSuccess: () => {
-      router.push("/signin"); // redirect to login page
-    },
-  },
-});
-  }
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/signin");
+          router.refresh();
+        },
+      },
+    });
+  };
+
   return (
     <div className="border-b px-2">
       <nav className=" flex justify-between items-center py-3 max-w-7xl mx-auto w-full">
@@ -44,13 +46,15 @@ const Navbar = () => {
           <li>
             <Link href={"/pricing"}>Pricing</Link>
           </li>
-          <li>
-            <Link href={"/profile"}>Profile</Link>
-          </li>
+          {user && (
+            <li>
+              <Link href={"/profile"}>Profile</Link>
+            </li>
+          )}
         </ul>
 
         <div>
-          {!user && (
+          {!isPending && !user && (
             <ul className="flex items-center gap-4 text-sm">
               <li>
                 <Link href={"/signup"}>SignUp</Link>
@@ -60,16 +64,16 @@ const Navbar = () => {
               </li>
             </ul>
           )}
-          {user && (
+          {!isPending && user && (
             <ul className="flex items-center gap-4 text-sm">
               <Avatar>
                 <Avatar.Image
-                  alt="Raiyan Zannat"
+                  alt={user.name || "User"}
                   src={user.image}
                   referrerPolicy = "no-referrer"
 
                 />
-                <Avatar.Fallback>RZ</Avatar.Fallback>
+                <Avatar.Fallback>{user.name?.slice(0, 2).toUpperCase() || "U"}</Avatar.Fallback>
               </Avatar>
               <p>Welcome, <br />{user.name}!</p>
               <li>

@@ -12,29 +12,39 @@ import {
   TextField,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setIsSubmitting(true);
 
     const name = e.target.name.value;
     const image = e.target.image.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    const { data, error } = await authClient.signUp.email({
-      name: name, // required
-      email: email, // required
-      password: password, // required
-      image: image,
+    const { error } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+      image: image || undefined,
     });
+
+    setIsSubmitting(false);
+
     if (error) {
-      console.log("SIGNUP ERROR:", error);
+      setErrorMessage(error.message || "Could not create your account. Please try again.");
+      return;
     }
-    if (!error) {
-      router.push("/signin");
-    }
+
+    router.push("/profile");
+    router.refresh();
   };
 
   return (
@@ -43,13 +53,19 @@ export default function SignUpPage() {
         <h1 className="text-center text-2xl font-bold">Sign Up</h1>
 
         <Form className="flex w-96 mx-auto flex-col gap-4" onSubmit={onSubmit}>
+          {errorMessage && (
+            <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {errorMessage}
+            </p>
+          )}
+
           <TextField isRequired name="name" type="text">
             <Label>Name</Label>
             <Input placeholder="Enter your name" />
             <FieldError />
           </TextField>
 
-          <TextField isRequired name="image" type="text">
+          <TextField name="image" type="url">
             <Label>Image URL</Label>
             <Input placeholder="Image URL" />
             <FieldError />
@@ -100,9 +116,9 @@ export default function SignUpPage() {
           </TextField>
 
           <div className="flex gap-2">
-            <Button type="submit">
+            <Button type="submit" isDisabled={isSubmitting}>
               <Check />
-              Submit
+              {isSubmitting ? "Creating..." : "Submit"}
             </Button>
             <Button type="reset" variant="secondary">
               Reset

@@ -3,17 +3,21 @@
 import { authClient } from "@/lib/auth-client";
 import { Envelope, PencilToSquare, PersonPencil } from "@gravity-ui/icons";
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 export function UpdateUserInfo() {
+    const router = useRouter();
+
     const onSubmit = async (e) => {
         e.preventDefault();
         const name = e.target.name.value;
         const image = e.target.image.value;
 
         await authClient.updateUser({
-        name: name,
-        image: image,
+        name: name || undefined,
+        image: image || undefined,
     })
+        router.refresh();
     }
 
     
