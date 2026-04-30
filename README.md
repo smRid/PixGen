@@ -2,16 +2,16 @@
 
 # ✨ PixGen
 
-### AI Image Gallery with Authentication, Pricing, and Profile Management
+### AI Image Gallery Application
 
 A polished Next.js image-gallery application where users can explore AI-generated visuals, browse a full gallery, view image details, create an account, sign in, manage their profile, and compare simple pricing plans through a clean modern interface.
 
-[![Live Demo](https://img.shields.io/badge/▶_Live_Demo-Visit_Now-2ea44f?style=for-the-badge)](https://pixgen-eta.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/▶_Live_Demo-Visit_Now-2ea44f?style=for-the-badge)](https://pixgen-gallery.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Better Auth](https://img.shields.io/badge/Better_Auth-Auth-111827?style=for-the-badge)](https://www.better-auth.com/)
-[![Deployed on Vercel](https://img.shields.io/badge/Vercel-Deployed-000?style=for-the-badge&logo=vercel&logoColor=white)](https://pixgen-eta.vercel.app/)
+[![Deployed on Vercel](https://img.shields.io/badge/Vercel-Deployed-000?style=for-the-badge&logo=vercel&logoColor=white)](https://pixgen-gallery.vercel.app/)
 
 </div>
 
@@ -27,7 +27,7 @@ A polished Next.js image-gallery application where users can explore AI-generate
   <img src="./public/preview2.png" alt="PixGen Gallery Preview" width="1000" />
 </p>
 
-> **🔗 Live Site:** [https://pixgen-eta.vercel.app/](https://pixgen-eta.vercel.app/)
+> **🔗 Live Site:** [https://pixgen-gallery.vercel.app/](https://pixgen-gallery.vercel.app/)
 
 ---
 
@@ -188,8 +188,8 @@ BETTER_AUTH_API_KEY=your_better_auth_dashboard_api_key
 For production, set:
 
 ```env
-BETTER_AUTH_URL=https://pixgen-eta.vercel.app
-BETTER_AUTH_TRUSTED_ORIGINS=https://pixgen-eta.vercel.app
+BETTER_AUTH_URL=https://pixgen-gallery.vercel.app
+BETTER_AUTH_TRUSTED_ORIGINS=https://pixgen-gallery.vercel.app
 ```
 
 > Local development currently uses Better Auth's memory adapter so auth can work even if MongoDB Atlas DNS/network access is unavailable. Production uses MongoDB through the Better Auth MongoDB adapter.
@@ -240,13 +240,13 @@ npm run lint
 
 The application is deployed on **Vercel**:
 
-**Live URL:** [https://pixgen-eta.vercel.app/](https://pixgen-eta.vercel.app/)
+**Live URL:** [https://pixgen-gallery.vercel.app/](https://pixgen-gallery.vercel.app/)
 
 For deployment:
 
 1. Add all production environment variables in Vercel project settings.
-2. Set `BETTER_AUTH_URL` to `https://pixgen-eta.vercel.app`.
-3. Add `https://pixgen-eta.vercel.app` to `BETTER_AUTH_TRUSTED_ORIGINS`.
+2. Set `BETTER_AUTH_URL` to `https://pixgen-gallery.vercel.app`.
+3. Add `https://pixgen-gallery.vercel.app` to `BETTER_AUTH_TRUSTED_ORIGINS`.
 4. Configure Google OAuth authorized origins and redirect URLs.
 5. Allow Vercel/production access in MongoDB Atlas Network Access.
 6. Redeploy after changing environment variables.
