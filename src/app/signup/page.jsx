@@ -39,7 +39,7 @@ export default function SignUpPage() {
     setIsSubmitting(false);
 
     if (error) {
-      setErrorMessage(error.message || "Could not create your account. Please try again.");
+      setErrorMessage(error.message || error.statusText || "Could not create your account. Check the database connection and try again.");
       return;
     }
 

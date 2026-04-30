@@ -38,7 +38,7 @@ export default function SignInPage() {
     setIsSubmitting(false);
 
     if (error) {
-      setErrorMessage(error.message || "Could not sign in. Check your email and password.");
+      setErrorMessage(error.message || error.statusText || "Could not sign in. Check the database connection and try again.");
       return;
     }
 
